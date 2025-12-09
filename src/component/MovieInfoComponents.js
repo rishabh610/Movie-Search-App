@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { API_KEY } from "../App";
 
-const MovieInfoComponent = (props) => {
+const MovieInfoComponents = (props) => {
   const [movieInfo, setMovieInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const { selectedMovie } = props;
@@ -67,4 +67,4 @@ const MovieInfoComponent = (props) => {
   );
 };
 
-export default MovieInfoComponent;
+export default MovieInfoComponents;

@@ -3,14 +3,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Axios from "axios";
 import MovieComponent from './component/MovieComponent';
-import MovieInfoComponent from './component/MovieInfoComponent';
+import MovieInfoComponent from './component/MovieInfoComponents';
 
 export const API_KEY = "bf166563";
 
 function App() {
   const [searchQuery, updateSearchQuery] = useState("");
   const [movieList, updateMovieList] = useState([]);
-  const [selectedMovie, onMovieSelect] = useState(null); // Changed to null for clarity
+  const [selectedMovie, onMovieSelect] = useState(null);
   const [timeoutId, updateTimeoutId] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,7 @@ function App() {
     setLoading(true);
     try {
       const response = await Axios.get(
-        `https://www.omdbapi.com/?s=${searchString}&apikey=${API_KEY}` // Fixed URL and protocol
+        `https://www.omdbapi.com/?s=${searchString}&apikey=${API_KEY}`
       );
       if (response.data && response.data.Search) {
         updateMovieList(response.data.Search);
@@ -35,7 +35,7 @@ function App() {
   }, []);
 
   const onTextChange = (e) => {
-    onMovieSelect(null); // Clear selection
+    onMovieSelect(null); 
     clearTimeout(timeoutId);
     updateSearchQuery(e.target.value);
     const timeout = setTimeout(() => fetchData(e.target.value), 500);
@@ -83,7 +83,7 @@ function App() {
         ) : movieList?.length ? (
           <div className="row">
             {movieList.map((movie, index) => (
-              <div key={index} className="col-lg-3 col-md-4 col-sm-6 mb-4">
+              <div key={movie.imdbID || index} className="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <MovieComponent movie={movie} onMovieSelect={onMovieSelect} />
               </div>
             ))}
@@ -91,7 +91,7 @@ function App() {
         ) : (
           <div className="text-center">
             <img className="Placeholder" src="/movie-icon.svg" alt="No movies" />
-            <p className="text-white mt-4"><h3>No Movies Found. Try Search Bar!</h3></p>
+            <h3 className="text-white mt-4">No Movies Found. Try Search Bar!</h3>
           </div>
         )}
       </div>
@@ -100,3 +100,4 @@ function App() {
 }
 
 export default App;
+
